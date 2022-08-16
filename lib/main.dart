@@ -3,7 +3,8 @@ import 'package:newtest/instagram/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main() async { // async == main() 을 비동기로 만들어준다.
+void main() async {
+  // async == main() 을 비동기로 만들어준다.
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -22,10 +23,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         primaryColor: Colors.white,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(secondary: Colors.black),
       ),
-      home: RootPage(),
+      home: bookList(), //RootPage()
     );
   }
 }
