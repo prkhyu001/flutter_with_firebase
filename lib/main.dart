@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newtest/books/book_list.dart';
 import 'package:newtest/instagram/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
             .copyWith(secondary: Colors.black),
       ),
-      home: bookList(), //RootPage()
+      home: BookList(), //RootPage()
     );
   }
 }

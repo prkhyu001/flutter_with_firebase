@@ -1,8 +1,13 @@
-
 import 'package:flutter/material.dart';
+import 'package:newtest/books/add_book_page.dart';
+import 'package:newtest/books/book_list_view_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookList extends StatelessWidget {
-  const BookList({Key? key}) : super(key: key);
+
+  BookList({Key? key}) : super(key: key);
+
+  final viewModel = BookListViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -10,24 +15,35 @@ class BookList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('도서 리스트 앱'),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Flutter 생존코딩'),
-            subtitle: Text('오준석'),
-          ),
-          ListTile(
-            title: Text('안드로이드 생존코딩'),
-            subtitle: Text('오준석'),
-          ),
-          ListTile(
-            title: Text('새싹 생존코딩'),
-            subtitle: Text('박현주'),
-          ),
-        ],
-      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: viewModel.booksStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text("Loading");
+            }
+
+            return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                return ListTile(
+                  title: Text(data['title']),
+                  subtitle: Text(data['author']),
+                );
+              }).toList(),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddBookPage()),
+          );
+        },
         child: Icon(Icons.add),
       ),
     );
