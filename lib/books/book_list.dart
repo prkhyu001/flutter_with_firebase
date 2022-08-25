@@ -4,7 +4,6 @@ import 'package:newtest/books/book_list_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookList extends StatelessWidget {
-
   BookList({Key? key}) : super(key: key);
 
   final viewModel = BookListViewModel();
@@ -30,9 +29,23 @@ class BookList extends StatelessWidget {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                return ListTile(
-                  title: Text(data['title']),
-                  subtitle: Text(data['author']),
+                return Dismissible(
+                  key: ValueKey(document.id),
+                  // onDismissed: (DismissDirection direction){
+                  //   if (direction == DismissDirection.endToStart)
+                  // },
+                  onDismissed: (_){
+                    viewModel.deleteBook(document.id);
+                  },
+                  background: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Colors.amber,
+                    child: Icon(Icons.delete, color: Colors.white),
+                  ),
+                  child: ListTile(
+                    title: Text(data['title']),
+                    subtitle: Text(data['author']),
+                  ),
                 );
               }).toList(),
             );

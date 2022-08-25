@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newtest/books/add_book_view_model.dart';
 
-
 class AddBookPage extends StatefulWidget {
   const AddBookPage({Key? key}) : super(key: key);
 
@@ -30,12 +29,18 @@ class _AddBookPageState extends State<AddBookPage> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 20.0,
+          ),
           TextField(
             controller: _titleController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: '제목',
             ),
+          ),
+          SizedBox(
+            height: 20.0,
           ),
           TextField(
             controller: _authorController,
